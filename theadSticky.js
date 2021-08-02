@@ -24,7 +24,7 @@ window.addEventListener('scroll', function(){
             getTDWidth();
         }
         document.querySelector('.vuetable thead').classList.add('fixedThead');
-        if (firstRun) {
+        if (theadLeft === 0) {
             theadLeft = document.querySelector('.vuetable thead').offsetLeft;
         }
     } else {
