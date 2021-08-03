@@ -21,6 +21,8 @@ let it = setInterval(function(){
 window.addEventListener('hashchange', function(){
     try {
         firstRun = true;
+        tdDimensions = [];
+        tableWidth = 0;
     } catch(error) { console.log( error ) }
 });
 
