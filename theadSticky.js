@@ -4,33 +4,43 @@ let tdDimensions = [];
 let firstRun = true;
 
 let it = setInterval(function(){
-    if ( shouldSticky() ) {
-        clearInterval( it );
-        document.querySelector('.mdc-data-table').addEventListener('scroll',function(){
-            let toLeft = document.querySelector('.mdc-data-table').scrollLeft;
-            let left   = Math.round( parseFloat(theadLeft - toLeft), 2 );
-            
-            document.querySelector('.vuetable thead').style.left = left +'px';
-            console.log([toLeft, document.querySelector('.vuetable thead').style.left]);
-        });
-    }
+    try {
+        if ( shouldSticky() ) {
+            clearInterval( it );
+            document.querySelector('.mdc-data-table').addEventListener('scroll',function(){
+                let toLeft = document.querySelector('.mdc-data-table').scrollLeft;
+                let left   = Math.round( parseFloat(theadLeft - toLeft), 2 );
+                
+                document.querySelector('.vuetable thead').style.left = left +'px';
+                console.log([toLeft, document.querySelector('.vuetable thead').style.left]);
+            });
+        }
+    } catch(error) { console.log( error ) }
 }, 100);
 
+window.addEventListener('hashchange', function(){
+    try {
+        firstRun = true;
+    } catch(error) { console.log( error ) }
+});
+
 window.addEventListener('scroll', function(){
-    tableWidth = document.querySelectorAll('.vuetable')[0].offsetWidth;
-    if ( shouldSticky() ) {
-        if (firstRun) {
-            firstRun  = false;
-            getTDWidth();
+    try {
+        tableWidth = document.querySelectorAll('.vuetable')[0].offsetWidth;
+        if ( shouldSticky() ) {
+            if (firstRun) {
+                firstRun  = false;
+                getTDWidth();
+            }
+            document.querySelector('.vuetable thead').classList.add('fixedThead');
+            if (theadLeft === 0) {
+                theadLeft = document.querySelector('.vuetable thead').offsetLeft;
+            }
+        } else {
+            document.querySelector('.vuetable thead').classList.remove('fixedThead');
         }
-        document.querySelector('.vuetable thead').classList.add('fixedThead');
-        if (theadLeft === 0) {
-            theadLeft = document.querySelector('.vuetable thead').offsetLeft;
-        }
-    } else {
-        document.querySelector('.vuetable thead').classList.remove('fixedThead');
-    }
-    setTDWidth();
+        setTDWidth();
+    } catch(error) { console.log( error ) }
 });
 
 window.addEventListener('resize', function(){
